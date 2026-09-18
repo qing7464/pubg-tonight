@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>今晚是否玩 PUBG</title>
+
+<style>
+
+/* =========================
+   基础设置
+========================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    font-family:
+        "Arial",
+        "Microsoft YaHei",
+        sans-serif;
+
+    color: #fff;
+
+    background:
+        radial-gradient(
+            circle at 50% 20%,
+            rgba(255, 174, 0, 0.12),
+            transparent 35%
+        ),
+        linear-gradient(
+            135deg,
+            #090b0c,
+            #151817 50%,
+            #080909
+        );
+
+    overflow-x: hidden;
+}
+
+
+/* =========================
+   背景装饰
+========================= */
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+
+    background:
+        linear-gradient(
+            rgba(255, 174, 0, 0.025) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255, 174, 0, 0.025) 1px,
+            transparent 1px
+        );
+
+    background-size: 45px 45px;
+
+    pointer-events: none;
+}
+
+
+/* 烟雾光晕 */
+
+body::after {
+    content: "";
+
+    position: fixed;
+
+    width: 500px;
+    height: 500px;
+
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255, 177, 0, 0.08),
+            transparent 70%
+        );
+
+    filter: blur(30px);
+
+    pointer-events: none;
+
+    animation: pulse 5s infinite alternate;
+}
+
+@keyframes pulse {
+    from {
+        opacity: 0.5;
+        transform: translate(-50%, -50%) scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+}
+
+
+/* =========================
+   主容器
+========================= */
+
+.container {
+    position: relative;
+    z-index: 2;
+
+    width: min(92%, 620px);
+
+    margin: 60px auto;
+
+    padding: 30px 25px 35px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(30, 33, 32, 0.97),
+            rgba(10, 12, 12, 0.97)
+        );
+
+    border: 1px solid rgba(255, 183, 0, 0.35);
+
+    box-shadow:
+        0 0 0 1px rgba(0,0,0,.8),
+        0 20px 60px rgba(0,0,0,.65),
+        0 0 40px rgba(255,170,0,.06);
+
+    clip-path: polygon(
+        0 18px,
+        18px 0,
+        calc(100% - 18px) 0,
+        100% 18px,
+        100% calc(100% - 18px),
+        calc(100% - 18px) 100%,
+        18px 100%,
+        0 calc(100% - 18px)
+    );
+}
+
+
+/* =========================
+   顶部
+========================= */
+
+.header {
+    text-align: center;
+
+    margin-bottom: 35px;
+}
+
+.logo {
+    display: inline-block;
+
+    padding: 6px 14px;
+
+    margin-bottom: 15px;
+
+    color: #111;
+
+    background: #f2b900;
+
+    font-weight: 900;
+
+    font-size: 20px;
+
+    letter-spacing: 3px;
+
+    border: 2px solid #111;
+
+    box-shadow:
+        4px 4px 0 #111;
+}
+
+.subtitle {
+    color: #999;
+
+    font-size: 12px;
+
+    letter-spacing: 5px;
+
+    text-transform: uppercase;
+}
+
+h1 {
+    margin: 15px 0 8px;
+
+    font-size: clamp(32px, 8vw, 52px);
+
+    font-weight: 900;
+
+    letter-spacing: 2px;
+
+    text-shadow:
+        3px 3px 0 #000,
+        0 0 20px rgba(255, 180, 0, .15);
+}
+
+h1 span {
+    color: #f4b400;
+}
+
+.divider {
+    width: 80px;
+    height: 3px;
+
+    margin: 18px auto;
+
+    background: #f4b400;
+
+    box-shadow:
+        0 0 10px rgba(244,180,0,.5);
+}
+
+
+/* =========================
+   小标签
+========================= */
+
+.status {
+    display: flex;
+
+    justify-content: center;
+
+    gap: 10px;
+
+    flex-wrap: wrap;
+
+    margin-bottom: 30px;
+}
+
+.status span {
+    padding: 7px 12px;
+
+    font-size: 12px;
+
+    color: #aaa;
+
+    border: 1px solid #343837;
+
+    background: #101212;
+
+    letter-spacing: 1px;
+}
+
+
+/* =========================
+   内容区域
+========================= */
+
+.panel {
+    padding: 25px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.035),
+            rgba(255,255,255,.01)
+        );
+
+    border: 1px solid #303432;
+
+    position: relative;
+}
+
+.panel::before {
+    content: "MISSION";
+
+    position: absolute;
+
+    top: -10px;
+    left: 18px;
+
+    padding: 3px 10px;
+
+    font-size: 10px;
+
+    letter-spacing: 2px;
+
+    color: #f4b400;
+
+    background: #151817;
+}
+
+
+/* =========================
+   问题
+========================= */
+
+.question {
+    text-align: center;
+
+    margin-bottom: 25px;
+
+    font-size: 21px;
+
+    font-weight: bold;
+}
+
+
+/* =========================
+   按钮
+========================= */
+
+.options {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 15px;
+}
+
+button {
+    min-height: 52px;
+
+    border: none;
+
+    font-size: 18px;
+
+    font-weight: 900;
+
+    letter-spacing: 2px;
+
+    cursor: pointer;
+
+    transition:
+        transform .15s,
+        box-shadow .15s,
+        background .15s;
+
+    clip-path: polygon(
+        0 8px,
+        8px 0,
+        calc(100% - 8px) 0,
+        100% 8px,
+        100% calc(100% - 8px),
+        calc(100% - 8px) 100%,
+        8px 100%,
+        0 calc(100% - 8px)
+    );
+}
+
+button:active {
+    transform: scale(.96);
+}
+
+.yes {
+    background: #f4b400;
+
+    color: #111;
+
+    box-shadow:
+        0 5px 0 #9b7300;
+}
+
+.yes:hover {
+    background: #ffc928;
+
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 8px 0 #9b7300,
+        0 0 25px rgba(244,180,0,.25);
+}
+
+.no {
+    background: #252928;
+
+    color: #ddd;
+
+    border: 1px solid #444;
+}
+
+.no:hover {
+    background: #333736;
+
+    transform: translateY(-3px);
+}
+
+
+/* =========================
+   时间选择
+========================= */
+
+.time-section {
+    margin-top: 5px;
+}
+
+.time-title {
+    text-align: center;
+
+    margin-bottom: 20px;
+
+    color: #f4b400;
+
+    font-size: 22px;
+
+    font-weight: 900;
+
+    letter-spacing: 3px;
+}
+
+.time-picker {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 10px;
+
+    margin: 25px 0;
+}
+
+select {
+    width: 110px;
+
+    height: 58px;
+
+    padding: 0 15px;
+
+    font-size: 24px;
+
+    font-weight: bold;
+
+    text-align: center;
+
+    color: #fff;
+
+    background: #111414;
+
+    border: 1px solid #555;
+
+    border-bottom: 3px solid #f4b400;
+
+    border-radius: 4px;
+
+    outline: none;
+}
+
+select:focus {
+    border-color: #f4b400;
+
+    box-shadow:
+        0 0 15px rgba(244,180,0,.2);
+}
+
+.colon {
+    font-size: 28px;
+
+    color: #f4b400;
+
+    font-weight: bold;
+}
+
+
+/* 确认按钮 */
+
+.confirm {
+    width: 100%;
+
+    background: #f4b400;
+
+    color: #111;
+
+    box-shadow:
+        0 5px 0 #9b7300;
+}
+
+.confirm:hover {
+    background: #ffc928;
+
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 8px 0 #9b7300,
+        0 0 25px rgba(244,180,0,.25);
+}
+
+
+/* =========================
+   结果
+========================= */
+
+.result {
+    text-align: center;
+
+    padding: 25px 15px;
+}
+
+.result-icon {
+    font-size: 42px;
+
+    margin-bottom: 15px;
+
+    animation: bounce .8s ease;
+}
+
+@keyframes bounce {
+    0% {
+        transform: scale(.5);
+        opacity: 0;
+    }
+
+    70% {
+        transform: scale(1.15);
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.result-time {
+    font-size: 32px;
+
+    font-weight: 900;
+
+    color: #f4b400;
+
+    margin-bottom: 15px;
+
+    text-shadow:
+        0 0 15px rgba(244,180,0,.25);
+}
+
+.result-message {
+    color: #ddd;
+
+    font-size: 17px;
+
+    line-height: 1.8;
+}
+
+
+/* =========================
+   重新选择
+========================= */
+
+.back {
+    margin-top: 20px;
+
+    width: 100%;
+
+    min-height: 44px;
+
+    color: #999;
+
+    background: #181b1a;
+
+    border: 1px solid #353938;
+
+    font-size: 14px;
+
+    letter-spacing: 1px;
+}
+
+.back:hover {
+    color: #fff;
+
+    background: #252928;
+}
+
+
+/* =========================
+   底部
+========================= */
+
+.footer {
+    margin-top: 30px;
+
+    padding-top: 20px;
+
+    border-top: 1px solid #292c2b;
+
+    text-align: center;
+
+    color: #666;
+
+    font-size: 11px;
+
+    letter-spacing: 2px;
+}
+
+.footer strong {
+    color: #999;
+}
+
+
+/* =========================
+   隐藏
+========================= */
+
+.hidden {
+    display: none !important;
+}
+
+
+/* =========================
+   手机适配
+========================= */
+
+@media (max-width: 500px) {
+
+    .container {
+        margin: 25px auto;
+
+        padding: 25px 17px 25px;
+    }
+
+    .panel {
+        padding: 20px 15px;
+    }
+
+    h1 {
+        font-size: 34px;
+    }
+
+    .options {
+        gap: 10px;
+    }
+
+    button {
+        font-size: 16px;
+    }
+
+    select {
+        width: 95px;
+
+        height: 55px;
+
+        font-size: 22px;
+    }
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="container">
+
+    <!-- 顶部 -->
+
+    <div class="header">
+
+        <div class="logo">
+            PUBG
+        </div>
+
+        <div class="subtitle">
+            BATTLE ROYALE · SQUAD INVITATION
+        </div>
+
+        <h1>
+            今晚是否玩<span>PUBG</span>
+        </h1>
+
+        <div class="divider"></div>
+
+    </div>
+
+
+    <!-- 游戏状态 -->
+
+    <div class="status">
+
+        <span>🎮 SQUAD</span>
+
+        <span>🪖 4 PLAYER</span>
+
+        <span>🏆 CHICKEN DINNER</span>
+
+    </div>
+
+
+    <!-- 主面板 -->
+
+    <div class="panel">
+
+        <!-- 初始选择 -->
+
+        <div id="choiceSection">
+
+            <div class="question">
+                ⚔️ 今晚，开不开黑？
+            </div>
+
+            <div class="options">
+
+                <button
+                    class="yes"
+                    id="yesButton">
+                    是
+                </button>
+
+                <button
+                    class="no"
+                    id="noButton">
+                    否
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- 时间选择 -->
+
+        <div
+            id="timeSection"
+            class="time-section hidden">
+
+            <div class="time-title">
+                ⏱ 选择开黑时间
+            </div>
+
+            <div class="time-picker">
+
+                <select id="hour">
+                </select>
+
+                <div class="colon">:</div>
+
+                <select id="minute">
+                </select>
+
+            </div>
+
+            <button
+                class="confirm"
+                id="confirmButton">
+
+                🎮 确认开黑
+
+            </button>
+
+        </div>
+
+
+        <!-- 最终结果 -->
+
+        <div
+            id="result"
+            class="result hidden">
+
+            <div class="result-icon">
+                🎮
+            </div>
+
+            <div
+                id="resultTime"
+                class="result-time">
+            </div>
+
+            <div class="result-message">
+
+                马上发到群里去，让我知道
+
+            </div>
+
+        </div>
+
+
+        <!-- 返回 -->
+
+        <button
+            id="backButton"
+            class="back hidden">
+
+            ↩ 重新选择
+
+        </button>
+
+    </div>
+
+
+    <div class="footer">
+
+        <strong>WINNER WINNER CHICKEN DINNER</strong>
+        <br><br>
+        TONIGHT · SQUAD UP · LET'S GO
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   获取元素
+========================= */
+
+const choiceSection =
+    document.getElementById("choiceSection");
+
+const timeSection =
+    document.getElementById("timeSection");
+
+const result =
+    document.getElementById("result");
+
+const resultTime =
+    document.getElementById("resultTime");
+
+const backButton =
+    document.getElementById("backButton");
+
+const yesButton =
+    document.getElementById("yesButton");
+
+const noButton =
+    document.getElementById("noButton");
+
+const confirmButton =
+    document.getElementById("confirmButton");
+
+const hour =
+    document.getElementById("hour");
+
+const minute =
+    document.getElementById("minute");
+
+
+/* =========================
+   创建时间选项
+========================= */
+
+for (let i = 0; i < 24; i++) {
+
+    const option =
+        document.createElement("option");
+
+    option.value = i;
+
+    option.textContent =
+        String(i).padStart(2, "0");
+
+    hour.appendChild(option);
+}
+
+
+for (let i = 0; i < 60; i++) {
+
+    const option =
+        document.createElement("option");
+
+    option.value = i;
+
+    option.textContent =
+        String(i).padStart(2, "0");
+
+    minute.appendChild(option);
+}
+
+
+/* =========================
+   默认时间
+========================= */
+
+hour.value = "21";
+minute.value = "30";
+
+
+/* =========================
+   选择「是」
+========================= */
+
+yesButton.addEventListener(
+    "click",
+    function () {
+
+        choiceSection.classList.add("hidden");
+
+        timeSection.classList.remove("hidden");
+
+    }
+);
+
+
+/* =========================
+   选择「否」
+========================= */
+
+noButton.addEventListener(
+    "click",
+    function () {
+
+        choiceSection.classList.add("hidden");
+
+        result.classList.remove("hidden");
+
+        backButton.classList.remove("hidden");
+
+        result.innerHTML = `
+
+            <div class="result-icon">
+                🫡
+            </div>
+
+            <div class="result-time">
+                退下吧
+            </div>
+
+            <div class="result-message">
+                本次作战取消
+            </div>
+
+        `;
+
+    }
+);
+
+
+/* =========================
+   确认时间
+========================= */
+
+confirmButton.addEventListener(
+    "click",
+    function () {
+
+        const h =
+            String(hour.value).padStart(2, "0");
+
+        const m =
+            String(minute.value).padStart(2, "0");
+
+        timeSection.classList.add("hidden");
+
+        result.classList.remove("hidden");
+
+        backButton.classList.remove("hidden");
+
+        resultTime.textContent =
+            `今晚 ${h}:${m} 开黑`;
+
+    }
+);
+
+
+/* =========================
+   重新选择
+========================= */
+
+backButton.addEventListener(
+    "click",
+    function () {
+
+        choiceSection.classList.remove("hidden");
+
+        timeSection.classList.add("hidden");
+
+        result.classList.add("hidden");
+
+        backButton.classList.add("hidden");
+
+    }
+);
+
+</script>
+
+</body>
+</html>
